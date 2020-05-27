@@ -1,11 +1,14 @@
 <template>
-  <div class="home">
-    <h1> ☺ </h1>
-  </div>
+  <v-container>
+    <PopularEvents />
+  </v-container>
 </template>
 
 <script>
+import PopularEvents from "./PopularEvents";
+
 export default {
-  name: 'Home',
-}
+  name: "Home",
+  components: { PopularEvents }
+};
 </script>
