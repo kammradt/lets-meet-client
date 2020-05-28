@@ -1,19 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar hide-on-scroll flat elevation="3" app>
-      <v-toolbar-title class="font-weight-bold display-1 primary--text">Let's meet!</v-toolbar-title>
+    <v-app-bar app elevation="3" flat hide-on-scroll>
+      <v-toolbar-title class="font-weight-bold display-1 primary--text"
+        >Let's meet!
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn color="primary" outlined class="mx-2">
-        <v-icon left v-text="'mdi-plus'"/>
+      <v-btn class="mx-2" color="primary" outlined>
+        <v-icon left v-text="'mdi-plus'" />
         Create event!
       </v-btn>
 
-      <v-btn outlined color="primary">
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
-
+      <Register />
     </v-app-bar>
 
     <v-content>
@@ -23,8 +22,11 @@
 </template>
 
 <script>
+import Register from "./modules/home/components/Register";
 
-  export default {
-    name: "App",
-  };
+export default {
+  name: "App",
+  components: { Register },
+  data: () => ({})
+};
 </script>
