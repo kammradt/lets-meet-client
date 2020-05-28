@@ -1,19 +1,20 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-const baseURL = "https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
+const baseURL = "http://localhost:3000"; //"https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
 
 const http = axios.create({ baseURL });
 
 http.interceptors.request.use(
-  config => {
-    const userToken = "getUserToken()";
+  function(config) {
+    const userToken = getToken();
+    if (userToken) {
+      const decoded = jwt_decode(userToken);
+      if (isExpired(decoded)) return;
 
-    // const expiration = getExpiration(userToken)
-    // const today = new Date();
-    //if (today > expiration) {
-    //} else { }
+      config.headers.Authorization = `Bearer ${userToken}`;
+    }
 
-    config.headers.Authorization = `Bearer ${userToken}`;
     return config;
   },
   error => {
@@ -21,4 +22,24 @@ http.interceptors.request.use(
   }
 );
 
-export { http };
+const getToken = () => {
+  return localStorage.getItem("token");
+};
+
+const isExpired = decodedToken => {
+  const expiration = decodedToken.exp;
+  const now = Date.now().valueOf() / 1000;
+  return now > expiration;
+};
+
+const setToken = token => {
+  localStorage.setItem("token", token);
+  localStorage.setItem("logged", "true");
+};
+
+const clearToken = () => {
+  localStorage.removeItem("token");
+  localStorage.setItem("logged", "");
+};
+
+export { http, setToken, clearToken };

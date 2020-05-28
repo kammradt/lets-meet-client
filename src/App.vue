@@ -7,12 +7,23 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn class="mx-2" color="primary" outlined>
-        <v-icon left v-text="'mdi-plus'" />
-        Create event!
-      </v-btn>
+      <div>
+        <v-btn
+          class="mx-2"
+          @click.stop="openLoginModal"
+          color="primary"
+          text
+          v-text="'Sign in'"
+        />
 
-      <Register />
+        <v-btn
+          @click.stop="openRegisterModal"
+          color="primary"
+          v-text="'Get started'"
+        />
+      </div>
+
+      <CredentialsModal ref="credentialsModal" />
     </v-app-bar>
 
     <v-content>
@@ -22,11 +33,18 @@
 </template>
 
 <script>
-import Register from "./modules/home/components/Register";
+import CredentialsModal from "./modules/home/components/CredentialsModal";
 
 export default {
   name: "App",
-  components: { Register },
-  data: () => ({})
+  components: { CredentialsModal },
+  methods: {
+    openLoginModal() {
+      this.$refs.credentialsModal.openModal(true);
+    },
+    openRegisterModal() {
+      this.$refs.credentialsModal.openModal(false);
+    }
+  }
 };
 </script>

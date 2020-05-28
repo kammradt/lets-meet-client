@@ -1,19 +1,40 @@
-import {http} from '../../../plugins/axios'
-import {handleError} from "../../../plugins/notification";
+import { clearToken, http, setToken } from "../../../plugins/axios";
+import { handleError, success } from "../../../plugins/notification";
 
-const USERS = '/users'
+const USERS = "/users";
+const AUTH = "/auth";
 
-const register = async ({email, password}) => {
-  try {
-    const response = await http.post(USERS, {
-      email, password
-    })
-    return response.data
-  } catch (err) {
-    handleError(err)
-  }
-}
+const register = ({ email, password }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await http.post(USERS, {
+        email,
+        password
+      });
+      resolve(response.data);
+    } catch (err) {
+      handleError(err);
+      reject();
+    }
+  });
+};
 
-export {
-  register
-}
+const login = ({ email, password }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await http.post(AUTH, {
+        email,
+        password
+      });
+      setToken(response.data.token);
+      success("Welcome!");
+      resolve();
+    } catch (err) {
+      clearToken();
+      handleError(err);
+      reject();
+    }
+  });
+};
+
+export { register, login };
