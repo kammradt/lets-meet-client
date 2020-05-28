@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <SearchFilter @new-filters="getEvents" />
-    <p v-for="event in events" :key="event.id">
+    <p :key="event.id" v-for="event in events">
       {{ event }}
     </p>
   </v-container>
