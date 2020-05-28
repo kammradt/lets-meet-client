@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import SearchFilter from "./SearchFilter";
+import SearchFilter from "../components/SearchFilter";
 import { http } from "../../../plugins/axios";
 
 export default {
