@@ -52,23 +52,6 @@ You can verify more below!
 API: https://api-lets-meet.herokuapp.com/ [API repo](https://github.com/kammradt/lets-meet-api)  
 Web app: https://lets-meet.now.sh/ 
 
-##  How to use :house:
-
-Database:
-`docker-compose up`
-
-API Dev:
-`npm run start:dev`
-
-API Build:
-`npm run build`
-
-API tests:
-`npm run test`
-
-Web app:
-`npm run serve`
-
 
 ##  Author
 
