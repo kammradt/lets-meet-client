@@ -39,7 +39,7 @@
         email: '',
         password: '',
       },
-      showDialog: true,
+      showDialog: false,
       showPassword: false,
     }),
     methods: {
