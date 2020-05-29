@@ -3,12 +3,7 @@
     <template v-slot:activator="{ on: menu }">
       <v-tooltip bottom>
         <template v-slot:activator="{ on: tooltip }">
-          <v-btn
-            large
-            color="primary"
-            dark
-            v-on="{ ...tooltip, ...menu }"
-          >
+          <v-btn large color="primary" dark v-on="{ ...tooltip, ...menu }">
             <v-icon v-text="'mdi-account'" />
           </v-btn>
         </template>
@@ -22,9 +17,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline"
-          >Your name
-          </v-list-item-title>
+          <v-list-item-title class="headline">Your name </v-list-item-title>
           <v-list-item-subtitle v-text="user.email" />
         </v-list-item-content>
       </v-list-item>
@@ -55,14 +48,13 @@
 </template>
 
 <script>
-  export default {
-    name: "UserCard",
-    props: {
-      user: {
-        type: Object,
-        required: true,
-      }
+export default {
+  name: "UserCard",
+  props: {
+    user: {
+      type: Object,
+      required: true
     }
   }
+};
 </script>
-

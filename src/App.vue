@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import CredentialsModal from "./modules/home/components/CredentialsModal";
+import CredentialsModal from "./modules/users/components/CredentialsModal";
 import { clearToken, isLogged } from "./plugins/axios";
-import { me } from "./modules/home/services/users-service";
-import UserCard from "./modules/home/components/UserCard";
+import { me } from "./modules/users/services/users-service";
+import UserCard from "./modules/users/components/UserCard";
 
 export default {
   name: "App",
