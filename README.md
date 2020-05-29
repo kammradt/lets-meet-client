@@ -45,13 +45,66 @@ You can verify more below!
 
 ###  Development progress :bar_chart:
 
-> You can verify more details about the project [here](https://github.com/kammradt/lets-meet-api)
+> All items listed below are based on the API, that you can verify [here]()  
+
+
+- [x] **Auth related**
+	- [x] Users should be able to register
+  - [x] Users should be able to login
+  - [ ] Users should be able to view details about their account
+
+
+- [ ] **Users related**
+  - [ ] Users should be able to view all available events
+  - [ ] Users should be able to filter events
+  - [ ] Users should be able to view details about a specific events (including attendees)
+  - [ ] Users should be able to create events
+  - [ ] Users should be able to edit/cancel events
+  - [ ] Users should be able to attend an event
+  - [ ] Users should be able to cancel an attendance to an event
+
+- [ ] **Admin related**
+	- [ ] Admins should be able to retrieve information about all users
+	- [ ] Admins should be able to update a user role to Premium or even Admin
+  - [ ] Admins should be able to cancel any event
+
 
 ##  How to use :globe_with_meridians:
 
-API: https://api-lets-meet.herokuapp.com/ [API repo](https://github.com/kammradt/lets-meet-api)  
+API: https://api-lets-meet.herokuapp.com/ -  [API repo](https://github.com/kammradt/lets-meet-api)  
 Web app: https://lets-meet.now.sh/ 
 
+##  How to use :house:
+
+### Vue setup
+
+Recommended Node version: `v12.16.3`
+(It is easier to install using [nvm!](https://github.com/nvm-sh/nvm))
+
+- Installing Node:
+	```bash
+	$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+	$ nvm install v12.16.3
+	```    
+  <br>
+
+  > Vue has an amazing CLI tool, it is a good idea to install it! 
+- Installing Vue CLI:
+  ```bash
+  $ npm install -g @vue/cli
+  ```
+
+- Development:
+  ```bash
+  npm run serve
+  ```
+
+- Production:
+  ```bash
+  npm run build
+  ```
+
+***
 
 ##  Author
 
