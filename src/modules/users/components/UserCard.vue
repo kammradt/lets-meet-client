@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on: menu }">
       <v-tooltip bottom>
         <template v-slot:activator="{ on: tooltip }">
-          <v-btn large color="primary" dark v-on="{ ...tooltip, ...menu }">
+          <v-btn text large color="primary" dark v-on="{ ...tooltip, ...menu }">
             <v-icon v-text="'mdi-account'" />
           </v-btn>
         </template>
@@ -37,7 +37,7 @@
             <v-btn block color="primary" v-text="'Update plan'" />
           </v-col>
           <v-col cols="2">
-            <v-btn text color="red" @click="this.$emit('logout')">
+            <v-btn text color="red" @click="$emit('logout')">
               <v-icon v-text="'mdi-logout'" />
             </v-btn>
           </v-col>

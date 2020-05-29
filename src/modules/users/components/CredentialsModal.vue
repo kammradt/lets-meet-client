@@ -25,7 +25,7 @@
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"
-                @keyup.enter="action"
+                @keyup.enter="performAction"
                 label="Password"
                 solo
                 v-model="credentialsRequest.password"
@@ -41,7 +41,12 @@
                   />
                 </v-col>
                 <v-col cols="9">
-                  <v-btn @click="action" block color="primary" v-text="title" />
+                  <v-btn
+                    @click="performAction"
+                    block
+                    color="primary"
+                    v-text="title"
+                  />
                 </v-col>
               </v-row>
             </v-form>
@@ -57,22 +62,18 @@ import { login, register } from "../services/users-service";
 export default {
   name: "Register",
   data: () => ({
+    title: "",
+    action: () => {},
     credentialsRequest: {
       email: "",
       password: ""
     },
     showModal: false,
-    showPassword: false,
-    isLoginAction: false
+    showPassword: false
   }),
-  computed: {
-    title() {
-      return this.isLoginAction ? "Sign in" : "Register";
-    }
-  },
   methods: {
-    action() {
-      this.isLoginAction ? this.performLogin() : this.performRegister();
+    performAction() {
+      this.action();
     },
     performLogin() {
       login(this.credentialsRequest).then(() => {
@@ -83,8 +84,13 @@ export default {
     performRegister() {
       register(this.credentialsRequest).then(this.performLogin);
     },
-    openModal(isLoginAction) {
-      this.isLoginAction = isLoginAction;
+    openModal(action) {
+      const actions = {
+        LOGIN: { action: this.performLogin, title: "Sign in" },
+        REGISTER: { action: this.performRegister, title: "Register" }
+      };
+      this.action = actions[action].action;
+      this.title = actions[action].title;
       this.showModal = true;
     },
     closeModal() {

@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <v-app-bar app elevation="3" flat hide-on-scroll>
-      <v-toolbar-title class="font-weight-bold display-1 primary--text"
-        >Let's meet!
-      </v-toolbar-title>
+      <v-toolbar-title
+        class="font-weight-bold headline primary--text"
+        v-text="'Let\'s meet!'"
+      />
 
       <v-spacer></v-spacer>
 
@@ -23,6 +24,7 @@
         />
       </div>
       <div v-else>
+        <v-btn color="primary" class="font-weight-bold" v-text="'New event'" />
         <UserCard @logout="onLogout" :user="user" />
       </div>
 
@@ -53,21 +55,18 @@ export default {
   },
   methods: {
     openLoginModal() {
-      this.$refs.credentialsModal.openModal(true);
+      this.$refs.credentialsModal.openModal("LOGIN");
     },
     async onLogin() {
       this.isLogged = isLogged();
       this.user = await me();
     },
     onLogout() {
-      console.log("opa");
       clearToken();
-      console.log("opa");
       this.isLogged = false;
-      console.log(this.isLogged);
     },
     openRegisterModal() {
-      this.$refs.credentialsModal.openModal(false);
+      this.$refs.credentialsModal.openModal("REGISTER");
     }
   }
 };
