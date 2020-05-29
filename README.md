@@ -68,6 +68,14 @@ You can verify more below!
 	- [ ] Admins should be able to update a user role to Premium or even Admin
   - [ ] Admins should be able to cancel any event
 
+- [ ] **Future improvements
+  - [ ] Use a TS based front-end framework
+  - [ ] Add state control (Vuex, Redux, etc.)
+  - [ ] Learn how test front-end stuff
+  - [ ] Add i18n 
+
+***
+
 
 ##  How to use :globe_with_meridians:
 
