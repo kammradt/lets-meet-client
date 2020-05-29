@@ -1,26 +1,28 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="10">
-        <SearchFilter @new-filters="getEvents" />
-      </v-col>
-      <v-col>
-        <v-btn
-          @click="openCreateEventModal"
-          class="font-weight-bold"
-          color="primary"
-          v-text="'New event'"
-        />
-      </v-col>
-    </v-row>
+    <SearchFilter @new-filters="getEvents" />
     <p :key="event.id" v-for="event in events">
       {{ event }}
     </p>
-    <v-fab-transition v-if="!showCreateEventButton">
-      <v-btn bottom color="primary" dark fab fixed right>
+    <v-fab-transition v-if="showCreateEventButton">
+      <v-btn
+        @click="openCreateEventModal"
+        bottom
+        color="primary"
+        dark
+        fab
+        fixed
+        right
+      >
         <v-icon v-text="'mdi-plus'" />
       </v-btn>
     </v-fab-transition>
+    <v-btn
+      @click="openCreateEventModal"
+      class="font-weight-bold"
+      color="primary"
+      v-text="'New event'"
+    />
 
     <EventModal ref="eventModal" />
   </v-container>

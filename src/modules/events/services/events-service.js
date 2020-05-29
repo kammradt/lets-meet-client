@@ -1,13 +1,13 @@
-import {http} from "../../../plugins/axios";
-import {handleError} from "../../../plugins/notification";
+import { http } from "../../../plugins/axios";
+import { handleError } from "../../../plugins/notification";
 
 const EVENTS = "/events";
 const ME = "/me";
 
-const events = (params) => {
+const events = params => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await http.get(EVENTS, params)
+      const response = await http.get(EVENTS, { params });
       resolve(response.data.items);
     } catch (err) {
       handleError(err);
@@ -16,10 +16,10 @@ const events = (params) => {
   });
 };
 
-const create = (body) => {
+const create = body => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await http.post(EVENTS, body)
+      const response = await http.post(EVENTS, body);
       resolve(response.data);
     } catch (err) {
       handleError(err);
@@ -28,11 +28,10 @@ const create = (body) => {
   });
 };
 
-
 const managedEvents = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await http.post(EVENTS + ME)
+      const response = await http.post(EVENTS + ME);
       resolve(response.data.items);
     } catch (err) {
       handleError(err);
@@ -41,5 +40,4 @@ const managedEvents = () => {
   });
 };
 
-
-export {events, create, managedEvents};
+export { events, create, managedEvents };
