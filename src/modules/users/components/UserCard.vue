@@ -1,23 +1,23 @@
 <template>
-  <v-menu :close-on-content-click="false" open-on-hover offset-x>
+  <v-menu :close-on-content-click="false" offset-x open-on-hover>
     <template v-slot:activator="{ on: menu }">
       <v-tooltip bottom>
         <template v-slot:activator="{ on: tooltip }">
-          <v-btn text large color="primary" dark v-on="{ ...tooltip, ...menu }">
+          <v-btn color="primary" dark large text v-on="{ ...tooltip, ...menu }">
             <v-icon v-text="'mdi-account'" />
           </v-btn>
         </template>
         <span v-text="'My account'" />
       </v-tooltip>
     </template>
-    <v-card width="350" class="mx-auto">
+    <v-card class="mx-auto" width="350">
       <v-list-item>
         <v-list-item-avatar color="grey">
           <span class="white--text headline" v-text="'YN'" />
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title class="headline">Your name </v-list-item-title>
+          <v-list-item-title class="headline">Your name</v-list-item-title>
           <v-list-item-subtitle v-text="user.email" />
         </v-list-item-content>
       </v-list-item>
@@ -37,7 +37,7 @@
             <v-btn block color="primary" v-text="'Update plan'" />
           </v-col>
           <v-col cols="2">
-            <v-btn text color="red" @click="$emit('logout')">
+            <v-btn @click="$emit('logout')" color="red" text>
               <v-icon v-text="'mdi-logout'" />
             </v-btn>
           </v-col>

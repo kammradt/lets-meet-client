@@ -10,8 +10,8 @@
 
       <div v-if="!isLogged">
         <v-btn
-          class="mx-2"
           @click.stop="openLoginModal"
+          class="mx-2"
           color="primary"
           text
           v-text="'Sign in'"
@@ -24,8 +24,7 @@
         />
       </div>
       <div v-else>
-        <v-btn color="primary" class="font-weight-bold" v-text="'New event'" />
-        <UserCard @logout="onLogout" :user="user" />
+        <UserCard :user="user" @logout="onLogout" />
       </div>
 
       <CredentialsModal @login-successful="onLogin" ref="credentialsModal" />

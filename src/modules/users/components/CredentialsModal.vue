@@ -10,10 +10,10 @@
         class="pt-2 display-1 font-weight-light text-center"
         v-text="title"
       />
-      <v-divider class="my-4"></v-divider>
+      <v-divider class="my-4" />
       <v-container>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="6">
+          <v-col cols="12" md="6" sm="8">
             <v-form>
               <v-text-field
                 label="E-mail"

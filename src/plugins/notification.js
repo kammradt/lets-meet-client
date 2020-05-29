@@ -15,13 +15,23 @@ const handleUnexpected = () => {
 };
 
 const createExpirationNotification = expiration => {
-  setTimeout(expiredError, expiration);
+  console.log("vou expirar em" + expiration);
+  clearExpirationNotification();
+  localStorage.setItem(
+    "ExpirationNotification",
+    setTimeout(expiredError, expiration)
+  );
 };
 
 const expiredError = () => {
   clearToken();
   error("Your session is expired. Sign in again.");
-  setTimeout(() => document.location.reload, 2000);
+  setTimeout(() => document.location.reload, 1000);
+};
+
+const clearExpirationNotification = () => {
+  clearTimeout(Number(localStorage.getItem("ExpirationNotification")));
+  localStorage.removeItem("ExpirationNotification");
 };
 
 const success = successMessage => {
@@ -45,5 +55,6 @@ export {
   success,
   error,
   createExpirationNotification,
+  clearExpirationNotification,
   expiredError
 };
