@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { createExpirationNotification, expiredError } from "./notification";
 
 const baseURL = "http://localhost:3000"; //"https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
 
@@ -10,7 +11,13 @@ http.interceptors.request.use(
     const userToken = getToken();
     if (userToken) {
       const decoded = jwt_decode(userToken);
-      if (isExpired(decoded)) return;
+      if (isExpired(decoded)) {
+        expiredError();
+        return;
+      }
+      createExpirationNotification(
+        getRemainingTimeUntilExpiration(decoded.exp)
+      );
 
       config.headers.Authorization = `Bearer ${userToken}`;
     }
@@ -26,20 +33,27 @@ const getToken = () => {
   return localStorage.getItem("token");
 };
 
+const isLogged = () => {
+  return !!getToken();
+};
+
 const isExpired = decodedToken => {
   const expiration = decodedToken.exp;
   const now = Date.now().valueOf() / 1000;
   return now > expiration;
 };
 
+const getRemainingTimeUntilExpiration = expiration => {
+  const now = Date.now().valueOf() / 1000;
+  return (expiration - now) * 1000;
+};
+
 const setToken = token => {
   localStorage.setItem("token", token);
-  localStorage.setItem("logged", "true");
 };
 
 const clearToken = () => {
   localStorage.removeItem("token");
-  localStorage.setItem("logged", "");
 };
 
-export { http, setToken, clearToken };
+export { http, setToken, clearToken, getToken, isLogged };

@@ -1,6 +1,7 @@
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import colors from "vuetify/lib/util/colors";
+import { clearToken } from "./axios";
 
 const handleError = err => {
   const message = err.response.data.message;
@@ -11,6 +12,16 @@ const handleError = err => {
 
 const handleUnexpected = () => {
   error("Unexpected error. Get in touch with support.");
+};
+
+const createExpirationNotification = expiration => {
+  setTimeout(expiredError, expiration);
+};
+
+const expiredError = () => {
+  clearToken();
+  error("Your session is expired. Sign in again.");
+  setTimeout(() => document.location.reload, 2000);
 };
 
 const success = successMessage => {
@@ -29,4 +40,10 @@ const error = errorMessage => {
   }).showToast();
 };
 
-export { handleError, success };
+export {
+  handleError,
+  success,
+  error,
+  createExpirationNotification,
+  expiredError
+};

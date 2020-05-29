@@ -25,6 +25,7 @@
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"
+                @keyup.enter="action"
                 label="Password"
                 solo
                 v-model="credentialsRequest.password"
@@ -62,28 +63,32 @@ export default {
     },
     showModal: false,
     showPassword: false,
-    isLogin: false
+    isLoginAction: false
   }),
   computed: {
     title() {
-      return this.isLogin ? "Sign in" : "Register";
+      return this.isLoginAction ? "Sign in" : "Register";
     }
   },
   methods: {
     action() {
-      this.isLogin ? this.performLogin() : this.performRegister();
+      this.isLoginAction ? this.performLogin() : this.performRegister();
     },
     performLogin() {
-      login(this.credentialsRequest).then(this.closeModal);
+      login(this.credentialsRequest).then(() => {
+        this.$emit("login-successful");
+        this.closeModal();
+      });
     },
     performRegister() {
       register(this.credentialsRequest).then(this.performLogin);
     },
-    openModal(isLogin) {
-      this.isLogin = isLogin;
+    openModal(isLoginAction) {
+      this.isLoginAction = isLoginAction;
       this.showModal = true;
     },
     closeModal() {
+      this.credentialsRequest = {};
       this.showModal = false;
     }
   }

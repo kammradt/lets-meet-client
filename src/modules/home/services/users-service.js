@@ -1,7 +1,8 @@
-import { clearToken, http, setToken } from "../../../plugins/axios";
+import { clearToken, http, isLogged, setToken } from "../../../plugins/axios";
 import { handleError, success } from "../../../plugins/notification";
 
 const USERS = "/users";
+const ME = "/me";
 const AUTH = "/auth";
 
 const register = ({ email, password }) => {
@@ -37,4 +38,19 @@ const login = ({ email, password }) => {
   });
 };
 
-export { register, login };
+const me = () => {
+  return new Promise(async (resolve, reject) => {
+    if (isLogged()) {
+      try {
+        const response = await http.get(USERS + ME);
+        resolve(response.data);
+      } catch (err) {
+        clearToken();
+        handleError(err);
+        reject();
+      }
+    }
+  });
+};
+
+export { register, login, me };
