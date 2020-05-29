@@ -6,7 +6,7 @@ import {
   expiredError
 } from "./notification";
 
-const baseURL = "http://localhost:3000"; //"https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
+const baseURL = "https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
 
 const http = axios.create({ baseURL });
 
