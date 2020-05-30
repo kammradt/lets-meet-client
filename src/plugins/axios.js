@@ -1,6 +1,10 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { createExpirationNotification, expiredError } from "./notification";
+import {
+  clearExpirationNotification,
+  createExpirationNotification,
+  expiredError
+} from "./notification";
 
 const baseURL = "https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
 
@@ -54,6 +58,7 @@ const setToken = token => {
 
 const clearToken = () => {
   localStorage.removeItem("token");
+  clearExpirationNotification();
 };
 
 export { http, setToken, clearToken, getToken, isLogged };
