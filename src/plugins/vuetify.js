@@ -10,12 +10,12 @@ export default new Vuetify({
       light: {
         primary: colors.teal,
         secondary: colors.teal.lighten4,
-        background: colors.teal.lighten5
+        background: colors.grey.lighten4
       },
       dark: {
         primary: colors.teal,
         secondary: colors.teal.lighten4,
-        background: colors.teal.lighten5
+        background: colors.grey.lighten4
       }
     }
   }
