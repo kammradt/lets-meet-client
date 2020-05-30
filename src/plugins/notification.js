@@ -15,7 +15,6 @@ const handleUnexpected = () => {
 };
 
 const createExpirationNotification = expiration => {
-  console.log("vou expirar em" + expiration);
   clearExpirationNotification();
   localStorage.setItem(
     "ExpirationNotification",
