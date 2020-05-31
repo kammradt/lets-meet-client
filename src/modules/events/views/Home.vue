@@ -1,23 +1,10 @@
 <template>
   <v-container>
-    <EventModal ref="eventModal" />
-    <SearchFilter @new-filters="getEvents" />
+    <EventModal />
+    <SearchFilter @new-filters="test" />
 
-    <v-fab-transition v-if="showCreateEventButton">
-      <v-btn
-        @click="openCreateEventModal"
-        bottom
-        color="primary"
-        dark
-        fab
-        fixed
-        right
-      >
-        <v-icon v-text="'mdi-plus'" />
-      </v-btn>
-    </v-fab-transition>
     <v-btn
-      @click="openCreateEventModal"
+      @click="updateLoginModalVisibility(true)"
       class="font-weight-bold"
       color="primary"
       v-text="'New event'"
@@ -34,37 +21,45 @@
   </v-container>
 </template>
 
-<script>
-import SearchFilter from "../components/SearchFilter";
-import { events } from "../services/events-service";
-import { isLogged } from "../../../plugins/axios";
-import EventModal from "../components/EventModal";
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import { Event } from "../interfaces/event.interface";
+import SearchFilter from "@/modules/events/components/SearchFilter.vue";
+import { namespace } from "vuex-class";
+import EventModal from "@/modules/events/components/EventModal.vue";
 
-export default {
+const eventStore = namespace("EventStore");
+const userStore = namespace("UserStore");
+
+@Component({
   name: "Home",
-  components: { EventModal, SearchFilter },
-  data: () => ({
-    events: []
-  }),
-  computed: {
-    showCreateEventButton() {
-      return this.$vuetify.breakpoint.smAndDown && isLogged();
-    }
-  },
+  components: {
+    SearchFilter,
+    EventModal
+  }
+})
+export default class Home extends Vue {
+  @eventStore.State
+  private events!: Event[];
+
+  @eventStore.Action
+  private getEvents!: (params: URLSearchParams | void) => void;
+
+  @userStore.Getter
+  private isLogged!: boolean;
+
+  @eventStore.Action
+  updateLoginModalVisibility!: (showEventModal: boolean) => void;
+
+  test(params: URLSearchParams) {
+    this.getEvents(params);
+  }
+
   mounted() {
     this.getEvents();
+    // falta verificar se ta pegando os eventos certo e remover a mensagme de sucesso sempre
     setInterval(this.getEvents, 60000);
-  },
-  methods: {
-    async getEvents(params) {
-      this.events = await events(params);
-    },
-    openCreateEventModal() {
-      this.$refs.eventModal.openModal({ action: "CREATE" });
-    },
-    openUpdateEventModal() {
-      this.$refs.eventModal.openModal({ id: 1, action: "UPDATE" });
-    }
   }
-};
+}
 </script>

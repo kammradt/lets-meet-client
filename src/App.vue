@@ -10,10 +10,30 @@
     </v-app>
   </div>
 </template>
-<script>
-import Toolbar from "./modules/users/components/Toolbar";
-export default {
+
+<script lang="ts">
+import Vue from "vue";
+import Toolbar from "@/modules/users/components/Toolbar.vue";
+import { Component } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { getToken } from "@/plugins/axios";
+
+const userStore = namespace("UserStore");
+
+@Component({
   name: "App",
-  components: { Toolbar }
-};
+  components: {
+    Toolbar
+  }
+})
+export default class App extends Vue {
+  @userStore.Action
+  me!: () => void;
+
+  mounted() {
+    if (getToken()) {
+      this.me();
+    }
+  }
+}
 </script>
