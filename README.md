@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to Let's Meet Client :v: </h1>
 
 <div align="center">
-    <img  src="./images/lets-meet.png"  alt="Let's meet logo"  width=500">
+    <img  src="./images/lets-meet.png"  alt="Let's meet logo"  width=501">
 </div>
 
 <div align="center">
