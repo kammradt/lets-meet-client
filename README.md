@@ -42,10 +42,10 @@ You can verify more below!
 
 * [ ] **Users related**
 
-  - [ ] Users should be able to view all available events
-  - [ ] Users should be able to filter events
+  - [x] Users should be able to view all available events
+  - [x] Users should be able to filter events
   - [ ] Users should be able to view details about a specific events (including attendees)
-  - [ ] Users should be able to create events
+  - [x] Users should be able to create events
   - [ ] Users should be able to edit/cancel events
   - [ ] Users should be able to attend an event
   - [ ] Users should be able to cancel an attendance to an event
@@ -57,8 +57,8 @@ You can verify more below!
   - [ ] Admins should be able to cancel any event
 
 * [ ] **Future improvements**
-  - [ ] Use a TS based front-end framework
-  - [ ] Add state control (Vuex, Redux, etc.)
+  - [x] Use a TS based front-end framework
+  - [x] Add state control (Vuex, Redux, etc.)
   - [ ] Learn how test front-end stuff
   - [ ] Add i18n
 
