@@ -12,19 +12,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Toolbar from "@/modules/users/components/Toolbar.vue";
-import { Component } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { getToken } from "@/plugins/axios";
+import Vue from 'vue';
+import Toolbar from '@/modules/users/components/Toolbar.vue';
+import { Component } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { getToken } from '@/plugins/axios';
 
-const userStore = namespace("UserStore");
+const userStore = namespace('UserStore');
 
 @Component({
-  name: "App",
+  name: 'App',
   components: {
-    Toolbar
-  }
+    Toolbar,
+  },
 })
 export default class App extends Vue {
   @userStore.Action

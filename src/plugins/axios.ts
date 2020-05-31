@@ -1,17 +1,16 @@
-import axios, {AxiosRequestConfig} from "axios";
-import JwtDecode from "jwt-decode";
+import axios, { AxiosRequestConfig } from 'axios';
+import JwtDecode from 'jwt-decode';
 import {
   clearExpirationNotification,
   createExpirationNotification,
   expiredError,
   handleError,
-  success
-} from "./notification";
+} from './notification';
 
-const baseURL = "https://api-lets-meet.herokuapp.com"; // Create env vars on vercel
+const baseURL = 'https://api-lets-meet.herokuapp.com'; // Create env vars on vercel
 
 const getToken = () => {
-  return localStorage.getItem("token");
+  return localStorage.getItem('token');
 };
 
 const isLogged = () => {
@@ -30,48 +29,50 @@ const getRemainingTimeUntilExpiration = (expiration: number) => {
 };
 
 const setToken = (token: string) => {
-  localStorage.setItem("token", token);
+  localStorage.setItem('token', token);
 };
 
 const clearToken = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem('token');
   clearExpirationNotification();
 };
 
-const http = axios.create({baseURL});
+const http = axios.create({ baseURL });
 
 http.interceptors.request.use(
-    function (value: AxiosRequestConfig): AxiosRequestConfig {
-      const userToken = getToken();
-      if (userToken) {
-        const decoded = JwtDecode(userToken) as any;
-        if (isExpired(decoded)) {
-          expiredError();
-        }
-        createExpirationNotification(
-            getRemainingTimeUntilExpiration(decoded.exp)
-        );
-
-        value.headers.Authorization = `Bearer ${userToken}`;
+  function (value: AxiosRequestConfig): AxiosRequestConfig {
+    const userToken = getToken();
+    if (userToken) {
+      const decoded = JwtDecode(userToken) as any;
+      if (isExpired(decoded)) {
+        expiredError();
       }
+      createExpirationNotification(
+        getRemainingTimeUntilExpiration(decoded.exp)
+      );
 
-      return value;
-    },
-    (error: any) => {
-      return Promise.reject(error);
+      value.headers.Authorization = `Bearer ${userToken}`;
     }
+
+    return value;
+  },
+  (error: any) => {
+    return Promise.reject(error);
+  }
 );
 
-http.interceptors.response.use((response) => {
-  return response;
-}, (error) => {
-  console.log('error')
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log('error');
 
-  if (error.response.status >= 400) {
-    handleError(error)
+    if (error.response.status >= 400) {
+      handleError(error);
+    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
 
-
-export {http, setToken, clearToken, getToken, isLogged};
+export { http, setToken, clearToken, getToken, isLogged };

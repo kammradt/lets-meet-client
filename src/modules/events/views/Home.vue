@@ -11,7 +11,7 @@
     />
 
     <v-row>
-      <v-col cols="12" md="4" :key="event.id" v-for="event in events">
+      <v-col :key="event.id" cols="12" md="4" v-for="event in events">
         <v-card>
           <v-card-title v-text="event.title" />
           <v-card-text v-text="event.description" />
@@ -22,35 +22,32 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
-import { Event } from "../interfaces/event.interface";
-import SearchFilter from "@/modules/events/components/SearchFilter.vue";
-import { namespace } from "vuex-class";
-import EventModal from "@/modules/events/components/EventModal.vue";
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
+import { Event } from '../interfaces/event.interface';
+import SearchFilter from '@/modules/events/components/SearchFilter.vue';
+import { namespace } from 'vuex-class';
+import EventModal from '@/modules/events/components/EventModal.vue';
 
-const eventStore = namespace("EventStore");
-const userStore = namespace("UserStore");
+const eventStore = namespace('EventStore');
+const userStore = namespace('UserStore');
 
 @Component({
-  name: "Home",
+  name: 'Home',
   components: {
     SearchFilter,
-    EventModal
-  }
+    EventModal,
+  },
 })
 export default class Home extends Vue {
-  @eventStore.State
-  private events!: Event[];
-
-  @eventStore.Action
-  private getEvents!: (params: URLSearchParams | void) => void;
-
-  @userStore.Getter
-  private isLogged!: boolean;
-
   @eventStore.Action
   updateLoginModalVisibility!: (showEventModal: boolean) => void;
+  @eventStore.State
+  private events!: Event[];
+  @eventStore.Action
+  private getEvents!: (params: URLSearchParams | void) => void;
+  @userStore.Getter
+  private isLogged!: boolean;
 
   test(params: URLSearchParams) {
     this.getEvents(params);
