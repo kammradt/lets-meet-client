@@ -85,29 +85,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import { Event } from "@/modules/events/interfaces/event.interface";
+import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { Event } from '@/modules/events/interfaces/event.interface';
 
-const eventStore = namespace("EventStore");
+const eventStore = namespace('EventStore');
 
-@Component({ name: "EventModal" })
+@Component({ name: 'EventModal' })
 export default class EventModal extends Vue {
-  private event: Event = {
-    title: "",
-    description: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    maxAttendees: 25
-  };
-
   @eventStore.Action
   createEvent!: (event: Event) => void;
-
   @eventStore.State
   showEventModal!: boolean;
-
   @eventStore.Action
   updateLoginModalVisibility!: (showEventModal: boolean) => void;
+  private event: Event = {
+    title: '',
+    description: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    maxAttendees: 25,
+  };
 }
 </script>

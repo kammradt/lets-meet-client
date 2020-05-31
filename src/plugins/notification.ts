@@ -1,7 +1,7 @@
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 
-import {clearToken} from "./axios";
+import { clearToken } from './axios';
 
 const notyf = new Notyf();
 const success = (successMessage: string) => {
@@ -9,11 +9,11 @@ const success = (successMessage: string) => {
 };
 
 const error = (errorMessage: string) => {
-  notyf.error(errorMessage)
+  notyf.error(errorMessage);
 };
 
 const handleUnexpected = () => {
-  error("Unexpected error. Get in touch with support.");
+  error('Unexpected error. Get in touch with support.');
 };
 
 const handleError = (err: any) => {
@@ -24,21 +24,21 @@ const handleError = (err: any) => {
 };
 
 const clearExpirationNotification = () => {
-  clearTimeout(Number(localStorage.getItem("ExpirationNotification")));
-  localStorage.removeItem("ExpirationNotification");
+  clearTimeout(Number(localStorage.getItem('ExpirationNotification')));
+  localStorage.removeItem('ExpirationNotification');
 };
 
 const expiredError = () => {
   clearToken();
-  error("Your session is expired. Sign in again.");
+  error('Your session is expired. Sign in again.');
   setTimeout(() => document.location.reload, 1000);
   // TODO fiz with vuex
 };
 const createExpirationNotification = (expiration: number) => {
   clearExpirationNotification();
   localStorage.setItem(
-      "ExpirationNotification",
-      String(setTimeout(expiredError, expiration))
+    'ExpirationNotification',
+    String(setTimeout(expiredError, expiration))
   );
 };
 
@@ -48,5 +48,5 @@ export {
   error,
   createExpirationNotification,
   clearExpirationNotification,
-  expiredError
+  expiredError,
 };

@@ -1,15 +1,15 @@
 <template>
   <v-text-field
-    solo
     @change="emitEventPaginationOptions"
+    solo
     v-model="params.search"
   >
     <template v-slot:prepend-inner>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-icon
-            color="primary"
             class="px-2"
+            color="primary"
             v-on="on"
             v-text="'mdi-magnify'"
           />
@@ -50,19 +50,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import moment from "moment";
-import { EventPaginationOptions } from "@/modules/events/interfaces/event-pagination-options";
-import { EventStatus } from "@/modules/events/interfaces/event.interface";
+import { Component, Vue } from 'vue-property-decorator';
+import moment from 'moment';
+import { EventPaginationOptions } from '@/modules/events/interfaces/event-pagination-options';
+import { EventStatus } from '@/modules/events/interfaces/event.interface';
 
-@Component({ name: "SearchFilter" })
+@Component({ name: 'SearchFilter' })
 export default class SearchFilter extends Vue {
   private params = {
-    search: "",
+    search: '',
     dates: [],
     status: [],
     limit: 100,
-    page: 1
+    page: 1,
   };
 
   emitEventPaginationOptions() {
@@ -75,29 +75,19 @@ export default class SearchFilter extends Vue {
       search,
       limit,
       page,
-      status
+      status,
     };
 
     const [start, end] = this.params.dates;
     const now = moment();
     if (start) {
-      params.startDate =
-        start +
-        now
-          .startOf("day")
-          .toISOString()
-          .substr(10);
+      params.startDate = start + now.startOf('day').toISOString().substr(10);
     }
     if (end) {
-      params.endDate =
-        end +
-        now
-          .startOf("day")
-          .toISOString()
-          .substr(10);
+      params.endDate = end + now.startOf('day').toISOString().substr(10);
     }
 
-    this.$emit("new-filters", params);
+    this.$emit('new-filters', params);
   }
 }
 </script>
