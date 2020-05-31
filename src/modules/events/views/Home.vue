@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <EventModal />
-    <SearchFilter @new-filters="test" />
+    <SearchFilter @new-filters="getUpdatedEvents" />
 
     <v-btn
       @click="updateLoginModalVisibility(true)"
@@ -12,9 +12,13 @@
 
     <v-row>
       <v-col :key="event.id" cols="12" md="4" v-for="event in events">
-        <v-card>
+        <v-card hover flat height="250">
           <v-card-title v-text="event.title" />
-          <v-card-text v-text="event.description" />
+          <v-card-subtitle v-text="happeningIn(event.startDate)" />
+          <v-card-text
+            class="format-v-card-text text-justify"
+            v-text="event.description"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -28,6 +32,7 @@ import { Event } from '../interfaces/event.interface';
 import SearchFilter from '@/modules/events/components/SearchFilter.vue';
 import { namespace } from 'vuex-class';
 import EventModal from '@/modules/events/components/EventModal.vue';
+import moment from 'moment';
 
 const eventStore = namespace('EventStore');
 const userStore = namespace('UserStore');
@@ -49,14 +54,26 @@ export default class Home extends Vue {
   @userStore.Getter
   private isLogged!: boolean;
 
-  test(params: URLSearchParams) {
+  getUpdatedEvents(params: URLSearchParams) {
     this.getEvents(params);
+  }
+
+  happeningIn(date: Date) {
+    return moment(date).fromNow();
   }
 
   mounted() {
     this.getEvents();
-    // falta verificar se ta pegando os eventos certo e remover a mensagme de sucesso sempre
     setInterval(this.getEvents, 60000);
   }
 }
 </script>
+
+<style scoped>
+.format-v-card-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+</style>
