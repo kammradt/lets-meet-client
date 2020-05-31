@@ -3,46 +3,44 @@
     fullscreen
     hide-overlay
     transition="scale-transition"
-    v-model="showModal"
+    v-model="showEventModal"
   >
     <v-card>
       <div
         class="pt-2 display-1 font-weight-light text-center"
-        v-text="title"
+        v-text="'New event'"
       />
-      <v-divider class="my-4"/>
+      <v-divider class="my-4" />
       <v-container>
         <v-row align="center" justify="center">
           <v-col cols="12" md="6" sm="8">
             <v-form>
               <v-row>
                 <v-col>
-                  <v-datetime-picker label="Start date" v-model="event.startDate">
+                  <v-datetime-picker
+                    label="Start date"
+                    v-model="event.startDate"
+                  >
                     <template v-slot:dateIcon>
-                      <v-icon v-text="'mdi-calendar'"/>
+                      <v-icon v-text="'mdi-calendar'" />
                     </template>
                     <template v-slot:timeIcon>
-                      <v-icon v-text="'mdi-clock'"/>
+                      <v-icon v-text="'mdi-clock'" />
                     </template>
                   </v-datetime-picker>
                 </v-col>
                 <v-col>
                   <v-datetime-picker label="End date" v-model="event.endDate">
                     <template v-slot:dateIcon>
-                      <v-icon v-text="'mdi-calendar'"/>
+                      <v-icon v-text="'mdi-calendar'" />
                     </template>
                     <template v-slot:timeIcon>
-                      <v-icon v-text="'mdi-clock'"/>
+                      <v-icon v-text="'mdi-clock'" />
                     </template>
                   </v-datetime-picker>
                 </v-col>
-
               </v-row>
-              <v-text-field
-                label="Title"
-                solo
-                v-model="event.title"
-              />
+              <v-text-field label="Title" solo v-model="event.title" />
               <v-textarea
                 counter="512"
                 label="Description"
@@ -62,7 +60,7 @@
               <v-row no-gutters>
                 <v-col cols="3">
                   <v-btn
-                    @click="closeModal"
+                    @click="updateLoginModalVisibility(false)"
                     block
                     color="red"
                     text
@@ -70,7 +68,12 @@
                   />
                 </v-col>
                 <v-col cols="9">
-                  <v-btn @click="action" block color="primary" v-text="title"/>
+                  <v-btn
+                    @click="createEvent(event)"
+                    block
+                    color="primary"
+                    v-text="'Create'"
+                  />
                 </v-col>
               </v-row>
             </v-form>
@@ -80,60 +83,31 @@
     </v-card>
   </v-dialog>
 </template>
-<script>
-import {create} from "../services/events-service"
-  export default {
-    name: "EventModal",
-    data: () => ({
-      actions: () => {
-      },
-      title: '',
-      event: {
-        title: '',
-        description: '',
-        startDate: '',
-        endDate: '',
-        maxAttendees: 25,
-        status: ''
-      },
-      showModal: false,
-    }),
-    methods: {
-      action() {
 
-      },
-      openModal({id, action}) {
-        this.id = id;
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { Event } from "@/modules/events/interfaces/event.interface";
 
-        if (id) {
-          // get event and fill value
-        }
+const eventStore = namespace("EventStore");
 
-        const actions = {
-          CREATE: {
-            action: this.createEvent, title: "Create"
-          },
-          UPDATE: {
-            action: this.update, title: "Update"
-          }
-        };
-        this.action = actions[action].action;
-        this.title = actions[action].title;
-
-        this.showModal = true;
-      },
-      createEvent() {
-        create(this.event).then(() => {
-          this.closeModal()
-        })
-      },
-      update() {
-
-      },
-      closeModal() {
-        this.event = {};
-        this.showModal = false;
-      }
-    }
+@Component({ name: "EventModal" })
+export default class EventModal extends Vue {
+  private event: Event = {
+    title: "",
+    description: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    maxAttendees: 25
   };
+
+  @eventStore.Action
+  createEvent!: (event: Event) => void;
+
+  @eventStore.State
+  showEventModal!: boolean;
+
+  @eventStore.Action
+  updateLoginModalVisibility!: (showEventModal: boolean) => void;
+}
 </script>
