@@ -2,7 +2,9 @@ import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import * as store from './../../../store';
 import { Event } from '@/modules/events/interfaces/event.interface';
 import { http } from '@/plugins/axios';
-import { EventPaginationOptions } from '@/modules/events/interfaces/event-pagination-options';
+import { EventPaginationOptions } from '@/modules/events/interfaces/event-pagination.options.interface';
+import { EventModalParams } from '@/modules/events/interfaces/event-modal-params.interface';
+import { emptyEvent } from '@/modules/events/helpers/event-helper';
 
 const EVENTS = '/events';
 
@@ -11,6 +13,8 @@ const EVENTS = '/events';
 export default class EventStore extends VuexModule {
   private events: Event[] = [];
   private showEventModal?: boolean = false;
+  private showEventDetailsModal?: boolean = false;
+  private currentEvent?: Event = emptyEvent();
 
   @Mutation
   public setEvents(newEvents: Event[]): void {
@@ -38,5 +42,33 @@ export default class EventStore extends VuexModule {
   @Action
   private updateLoginModalVisibility(showEventModal: boolean): void {
     this.context.commit('setEventModalVisibility', showEventModal);
+  }
+
+  @Mutation
+  private setEventDetailsModalVisibility(showEventDetailsModal: boolean): void {
+    this.showEventDetailsModal = showEventDetailsModal;
+  }
+
+  @Action
+  private async updateEventDetailModalVisibility(
+    params: EventModalParams
+  ): Promise<void> {
+    if (params.id) {
+      await this.context.dispatch('updateCurrentEvent', params.id);
+    } else {
+      this.context.commit('setCurrentEvent', emptyEvent());
+    }
+    this.context.commit('setEventDetailsModalVisibility', params.show);
+  }
+
+  @Mutation
+  private setCurrentEvent(event: Event): void {
+    this.currentEvent = event;
+  }
+
+  @Action
+  private async updateCurrentEvent(id: string): Promise<void> {
+    const response = await http.get(`${EVENTS}/${id}`);
+    this.context.commit('setCurrentEvent', response.data);
   }
 }

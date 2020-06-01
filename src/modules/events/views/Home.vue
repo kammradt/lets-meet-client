@@ -1,7 +1,8 @@
 <template>
   <v-container>
     <EventModal />
-    <SearchFilter @new-filters="test" />
+    <EventModalDetails />
+    <SearchFilter @new-filters="getUpdatedEvents" />
 
     <v-btn
       @click="updateLoginModalVisibility(true)"
@@ -12,10 +13,7 @@
 
     <v-row>
       <v-col :key="event.id" cols="12" md="4" v-for="event in events">
-        <v-card>
-          <v-card-title v-text="event.title" />
-          <v-card-text v-text="event.description" />
-        </v-card>
+        <EventCard :event="event" />
       </v-col>
     </v-row>
   </v-container>
@@ -28,6 +26,8 @@ import { Event } from '../interfaces/event.interface';
 import SearchFilter from '@/modules/events/components/SearchFilter.vue';
 import { namespace } from 'vuex-class';
 import EventModal from '@/modules/events/components/EventModal.vue';
+import EventCard from '@/modules/events/views/EventCard.vue';
+import EventModalDetails from '@/modules/events/components/EventDetailsModal.vue';
 
 const eventStore = namespace('EventStore');
 const userStore = namespace('UserStore');
@@ -35,8 +35,10 @@ const userStore = namespace('UserStore');
 @Component({
   name: 'Home',
   components: {
+    EventCard,
     SearchFilter,
     EventModal,
+    EventModalDetails,
   },
 })
 export default class Home extends Vue {
@@ -49,13 +51,12 @@ export default class Home extends Vue {
   @userStore.Getter
   private isLogged!: boolean;
 
-  test(params: URLSearchParams) {
+  getUpdatedEvents(params: URLSearchParams) {
     this.getEvents(params);
   }
 
   mounted() {
     this.getEvents();
-    // falta verificar se ta pegando os eventos certo e remover a mensagme de sucesso sempre
     setInterval(this.getEvents, 60000);
   }
 }

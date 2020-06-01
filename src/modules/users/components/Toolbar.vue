@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app clipped-left color="primary">
+    <v-app-bar app clipped-left color="primary" flat>
       <v-app-bar-nav-icon @click="drawer = !drawer" color="white" />
       <span class="headline ml-3 mr-5 white--text">
         Let's&nbsp;

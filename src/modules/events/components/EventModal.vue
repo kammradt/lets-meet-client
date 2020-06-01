@@ -11,13 +11,14 @@
         v-text="'New event'"
       />
       <v-divider class="my-4" />
-      <v-container>
+      <v-container class="px-6">
         <v-row align="center" justify="center">
           <v-col cols="12" md="6" sm="8">
             <v-form>
               <v-row>
                 <v-col>
                   <v-datetime-picker
+                    elevation="12"
                     label="Start date"
                     v-model="event.startDate"
                   >

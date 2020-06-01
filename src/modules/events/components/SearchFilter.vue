@@ -52,7 +52,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import moment from 'moment';
-import { EventPaginationOptions } from '@/modules/events/interfaces/event-pagination-options';
+import { EventPaginationOptions } from '@/modules/events/interfaces/event-pagination.options.interface';
 import { EventStatus } from '@/modules/events/interfaces/event.interface';
 
 @Component({ name: 'SearchFilter' })
