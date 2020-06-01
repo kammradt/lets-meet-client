@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <EventModal />
+    <EventModalDetails />
     <SearchFilter @new-filters="getUpdatedEvents" />
 
     <v-btn
@@ -12,14 +13,7 @@
 
     <v-row>
       <v-col :key="event.id" cols="12" md="4" v-for="event in events">
-        <v-card hover flat height="250">
-          <v-card-title v-text="event.title" />
-          <v-card-subtitle v-text="happeningIn(event.startDate)" />
-          <v-card-text
-            class="format-v-card-text text-justify"
-            v-text="event.description"
-          />
-        </v-card>
+        <EventCard :event="event" />
       </v-col>
     </v-row>
   </v-container>
@@ -32,7 +26,8 @@ import { Event } from '../interfaces/event.interface';
 import SearchFilter from '@/modules/events/components/SearchFilter.vue';
 import { namespace } from 'vuex-class';
 import EventModal from '@/modules/events/components/EventModal.vue';
-import moment from 'moment';
+import EventCard from '@/modules/events/views/EventCard.vue';
+import EventModalDetails from '@/modules/events/components/EventDetailsModal.vue';
 
 const eventStore = namespace('EventStore');
 const userStore = namespace('UserStore');
@@ -40,8 +35,10 @@ const userStore = namespace('UserStore');
 @Component({
   name: 'Home',
   components: {
+    EventCard,
     SearchFilter,
     EventModal,
+    EventModalDetails,
   },
 })
 export default class Home extends Vue {
@@ -58,22 +55,9 @@ export default class Home extends Vue {
     this.getEvents(params);
   }
 
-  happeningIn(date: Date) {
-    return moment(date).fromNow();
-  }
-
   mounted() {
     this.getEvents();
     setInterval(this.getEvents, 60000);
   }
 }
 </script>
-
-<style scoped>
-.format-v-card-text {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-}
-</style>
