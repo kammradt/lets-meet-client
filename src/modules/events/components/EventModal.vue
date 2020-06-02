@@ -2,6 +2,7 @@
   <v-dialog
     fullscreen
     hide-overlay
+    @input="updateEventModalVisibility(false)"
     transition="scale-transition"
     v-model="showEventModal"
   >
@@ -61,7 +62,7 @@
               <v-row no-gutters>
                 <v-col cols="3">
                   <v-btn
-                    @click="updateLoginModalVisibility(false)"
+                    @click="updateEventModalVisibility(false)"
                     block
                     color="red"
                     text
@@ -99,7 +100,7 @@ export default class EventModal extends Vue {
   @eventStore.State
   showEventModal!: boolean;
   @eventStore.Action
-  updateLoginModalVisibility!: (showEventModal: boolean) => void;
+  updateEventModalVisibility!: (showEventModal: boolean) => void;
   private event: Event = {
     title: '',
     description: '',

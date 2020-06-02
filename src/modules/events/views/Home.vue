@@ -5,7 +5,7 @@
     <SearchFilter @new-filters="getUpdatedEvents" />
 
     <v-btn
-      @click="updateLoginModalVisibility(true)"
+      @click="updateEventModalVisibility(true)"
       class="font-weight-bold"
       color="primary"
       v-text="'New event'"
@@ -43,7 +43,7 @@ const userStore = namespace('UserStore');
 })
 export default class Home extends Vue {
   @eventStore.Action
-  updateLoginModalVisibility!: (showEventModal: boolean) => void;
+  updateEventModalVisibility!: (showEventModal: boolean) => void;
   @eventStore.State
   private events!: Event[];
   @eventStore.Action
