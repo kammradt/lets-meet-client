@@ -2,7 +2,12 @@
   <v-dialog
     fullscreen
     hide-overlay
-    persistent
+    @input="
+      () => {
+        updateRegisterModalVisibility(false);
+        clear();
+      }
+    "
     transition="scale-transition"
     v-model="showRegisterModal"
   >

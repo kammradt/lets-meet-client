@@ -2,6 +2,7 @@
   <v-dialog
     fullscreen
     hide-overlay
+    @input="onClose"
     transition="scale-transition"
     v-model="showEventDetailsModal"
   >

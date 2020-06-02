@@ -40,7 +40,7 @@ export default class EventStore extends VuexModule {
   }
 
   @Action
-  private updateLoginModalVisibility(showEventModal: boolean): void {
+  private updateEventModalVisibility(showEventModal: boolean): void {
     this.context.commit('setEventModalVisibility', showEventModal);
   }
 

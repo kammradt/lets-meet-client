@@ -2,7 +2,12 @@
   <v-dialog
     fullscreen
     hide-overlay
-    persistent
+    @input="
+      () => {
+        updateLoginModalVisibility(false);
+        clear();
+      }
+    "
     transition="scale-transition"
     v-model="showLoginModal"
   >
