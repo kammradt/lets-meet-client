@@ -52,20 +52,21 @@
                 :value="currentEvent.description"
               />
 
-              <!--              <v-slider-->
-              <!--                append-icon="mdi-account-group"-->
-              <!--                max="100"-->
-              <!--                min="0"-->
-              <!--                prepend-icon="mdi-account"-->
-              <!--                thumb-label-->
-              <!--                persistent-hint-->
-              <!--                :value="currentEvent.maxAttendees"-->
-              <!--              />-->
+              <v-slider
+                append-icon="mdi-account-group"
+                readonly
+                max="100"
+                min="0"
+                prepend-icon="mdi-account"
+                thumb-label
+                persistent-hint
+                :value="currentEvent.maxAttendees"
+              />
             </v-form>
             <v-row v-if="!showSmallButton">
               <v-col cols="3">
                 <v-btn
-                  @click="updateEventDetailModalVisibility({ show: false })"
+                  @click="onClose"
                   block
                   x-large
                   dark
@@ -87,9 +88,9 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-card flat class="background">
-              <v-card-title @click="getAttendees">
-                <v-icon left v-text="'mdi-arrow-down'" />
-                Attendees
+              <v-card-title @click="showAttendees = !showAttendees">
+                <v-icon left v-text="getArrowIcon" />
+                {{ attendeesTitle }}
               </v-card-title>
               <template v-if="showAttendees">
                 <template v-if="hasAttendees">
@@ -179,7 +180,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Event } from '../interfaces/event.interface';
 import { EventModalParams } from '@/modules/events/interfaces/event-modal-params.interface';
@@ -204,12 +205,6 @@ export default class EventModalDetails extends Vue {
   updateEventDetailModalVisibility!: (params: EventModalParams) => void;
   showAttendees = false;
 
-  mounted() {
-    if (this.showEventDetailsModal) {
-      this.getAttendees();
-    }
-  }
-
   get startDate() {
     return moment(this.currentEvent.startDate).calendar();
   }
@@ -226,16 +221,26 @@ export default class EventModalDetails extends Vue {
     return this.attendees.length > 0;
   }
 
-  async getAttendees() {
-    if (!this.showAttendees) {
-      const response = await http.get(
-        `/events/${this.currentEvent.id}/attendance`
-      );
-      this.attendees = response.data;
-      this.showAttendees = true;
-    } else {
-      this.showAttendees = false;
+  get attendeesTitle() {
+    return `Attendees ${this.attendees.length}/${this.currentEvent.maxAttendees}`;
+  }
+
+  get getArrowIcon() {
+    return this.showAttendees ? 'mdi-chevron-up' : 'mdi-chevron-down';
+  }
+
+  @Watch('showEventDetailsModal')
+  updateAttendees() {
+    if (this.showEventDetailsModal) {
+      this.getAttendees();
     }
+  }
+
+  async getAttendees() {
+    const response = await http.get(
+      `/events/${this.currentEvent.id}/attendance`
+    );
+    this.attendees = response.data;
   }
 
   async attendToEvent() {
