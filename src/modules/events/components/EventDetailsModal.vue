@@ -75,7 +75,13 @@
                 />
               </v-col>
               <v-col cols="9">
-                <v-btn block x-large class="primary" v-text="'Attend'" />
+                <v-btn
+                  block
+                  @click="attendToEvent"
+                  x-large
+                  class="primary"
+                  v-text="'Attend'"
+                />
               </v-col>
             </v-row>
           </v-col>
