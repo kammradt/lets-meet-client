@@ -158,27 +158,40 @@
         </v-row>
         <v-btn
           v-if="showSmallButton"
-          x-large
-          fixed
-          bottom
-          right
-          style="z-index: 1;"
-          class="primary"
-          @click="attendToEvent"
-          v-text="'Attend'"
-        />
-        <v-btn
-          v-if="showSmallButton"
           @click="onClose"
-          x-large
           fixed
+          fab
           bottom
           dark
           left
           style="z-index: 1;"
           class="red"
-          v-text="'Exit'"
+          v-text="'x'"
         />
+        <div>
+          <v-btn
+            v-if="showSmallButton"
+            x-large
+            fixed
+            bottom
+            right
+            style="z-index: 1;"
+            class="primary"
+            @click="attendToEvent"
+            v-text="'Attend'"
+          />
+          <v-btn
+            v-if="showSmallButton"
+            x-large
+            fixed
+            bottom
+            right
+            style="z-index: 1; margin-right: 150px;"
+            class="warning"
+            @click="cancelAttendance"
+            v-text="'Cancel'"
+          />
+        </div>
       </v-container>
     </v-card>
   </v-dialog>
