@@ -64,22 +64,27 @@
               />
             </v-form>
             <v-row v-if="!showSmallButton">
-              <v-col cols="3">
+              <v-col cols="2">
                 <v-btn
                   @click="onClose"
                   block
-                  x-large
                   dark
                   class="red"
-                  text
                   v-text="'Exit'"
                 />
               </v-col>
-              <v-col cols="9">
+              <v-col cols="5">
+                <v-btn
+                  block
+                  @click="cancelAttendance"
+                  class="warning"
+                  v-text="'Cancel Attendance'"
+                />
+              </v-col>
+              <v-col cols="5">
                 <v-btn
                   block
                   @click="attendToEvent"
-                  x-large
                   class="primary"
                   v-text="'Attend'"
                 />
@@ -247,6 +252,17 @@ export default class EventModalDetails extends Vue {
     if (this.isLogged) {
       await http.patch(`/events/${this.currentEvent.id}/attendance`);
       success('Attending!');
+      await this.getAttendees();
+      this.showAttendees = true;
+    } else {
+      error('Sign in first!');
+    }
+  }
+
+  async cancelAttendance() {
+    if (this.isLogged) {
+      await http.delete(`/events/${this.currentEvent.id}/attendance`);
+      success('Cancelled!');
       await this.getAttendees();
       this.showAttendees = true;
     } else {

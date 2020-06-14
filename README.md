@@ -44,12 +44,12 @@ You can verify more below!
 
   - [x] Users should be able to view all available events
   - [x] Users should be able to filter events
-	- [ ] Users should be able to retrieve their events
+	- [ ] Users should be able to retrieve their managed events
   - [x] Users should be able to view details about a specific events (including attendees)
   - [x] Users should be able to create events
   - [ ] Users should be able to edit/cancel events
   - [x] Users should be able to attend an event
-  - [ ] Users should be able to cancel an attendance to an event
+  - [x] Users should be able to cancel an attendance to an event
 	- [ ] Users should be able to retrieve events that they are attending
 
 * [ ] **Admin related**
