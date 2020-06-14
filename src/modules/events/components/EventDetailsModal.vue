@@ -52,38 +52,50 @@
                 :value="currentEvent.description"
               />
 
-              <!--              <v-slider-->
-              <!--                append-icon="mdi-account-group"-->
-              <!--                max="100"-->
-              <!--                min="0"-->
-              <!--                prepend-icon="mdi-account"-->
-              <!--                thumb-label-->
-              <!--                persistent-hint-->
-              <!--                :value="currentEvent.maxAttendees"-->
-              <!--              />-->
+              <v-slider
+                append-icon="mdi-account-group"
+                readonly
+                max="100"
+                min="0"
+                prepend-icon="mdi-account"
+                thumb-label
+                persistent-hint
+                :value="currentEvent.maxAttendees"
+              />
             </v-form>
             <v-row v-if="!showSmallButton">
-              <v-col cols="3">
+              <v-col cols="2">
                 <v-btn
-                  @click="updateEventDetailModalVisibility({ show: false })"
+                  @click="onClose"
                   block
-                  x-large
                   dark
                   class="red"
-                  text
                   v-text="'Exit'"
                 />
               </v-col>
-              <v-col cols="9">
-                <v-btn block x-large class="primary" v-text="'Attend'" />
+              <v-col cols="5">
+                <v-btn
+                  block
+                  @click="cancelAttendance"
+                  class="warning"
+                  v-text="'Cancel Attendance'"
+                />
+              </v-col>
+              <v-col cols="5">
+                <v-btn
+                  block
+                  @click="attendToEvent"
+                  class="primary"
+                  v-text="'Attend'"
+                />
               </v-col>
             </v-row>
           </v-col>
           <v-col cols="12" md="4">
             <v-card flat class="background">
-              <v-card-title @click="getAttendees">
-                <v-icon left v-text="'mdi-arrow-down'" />
-                Attendees
+              <v-card-title @click="showAttendees = !showAttendees">
+                <v-icon left v-text="getArrowIcon" />
+                {{ attendeesTitle }}
               </v-card-title>
               <template v-if="showAttendees">
                 <template v-if="hasAttendees">
@@ -146,34 +158,47 @@
         </v-row>
         <v-btn
           v-if="showSmallButton"
-          x-large
-          fixed
-          bottom
-          right
-          style="z-index: 1;"
-          class="primary"
-          @click="attendToEvent"
-          v-text="'Attend'"
-        />
-        <v-btn
-          v-if="showSmallButton"
           @click="onClose"
-          x-large
           fixed
+          fab
           bottom
           dark
           left
           style="z-index: 1;"
           class="red"
-          v-text="'Exit'"
+          v-text="'x'"
         />
+        <div>
+          <v-btn
+            v-if="showSmallButton"
+            x-large
+            fixed
+            bottom
+            right
+            style="z-index: 1;"
+            class="primary"
+            @click="attendToEvent"
+            v-text="'Attend'"
+          />
+          <v-btn
+            v-if="showSmallButton"
+            x-large
+            fixed
+            bottom
+            right
+            style="z-index: 1; margin-right: 150px;"
+            class="warning"
+            @click="cancelAttendance"
+            v-text="'Cancel'"
+          />
+        </div>
       </v-container>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { Event } from '../interfaces/event.interface';
 import { EventModalParams } from '@/modules/events/interfaces/event-modal-params.interface';
@@ -198,12 +223,6 @@ export default class EventModalDetails extends Vue {
   updateEventDetailModalVisibility!: (params: EventModalParams) => void;
   showAttendees = false;
 
-  mounted() {
-    if (this.showEventDetailsModal) {
-      this.getAttendees();
-    }
-  }
-
   get startDate() {
     return moment(this.currentEvent.startDate).calendar();
   }
@@ -220,22 +239,43 @@ export default class EventModalDetails extends Vue {
     return this.attendees.length > 0;
   }
 
-  async getAttendees() {
-    if (!this.showAttendees) {
-      const response = await http.get(
-        `/events/${this.currentEvent.id}/attendance`
-      );
-      this.attendees = response.data;
-      this.showAttendees = true;
-    } else {
-      this.showAttendees = false;
+  get attendeesTitle() {
+    return `Attendees ${this.attendees.length}/${this.currentEvent.maxAttendees}`;
+  }
+
+  get getArrowIcon() {
+    return this.showAttendees ? 'mdi-chevron-up' : 'mdi-chevron-down';
+  }
+
+  @Watch('showEventDetailsModal')
+  updateAttendees() {
+    if (this.showEventDetailsModal) {
+      this.getAttendees();
     }
+  }
+
+  async getAttendees() {
+    const response = await http.get(
+      `/events/${this.currentEvent.id}/attendance`
+    );
+    this.attendees = response.data;
   }
 
   async attendToEvent() {
     if (this.isLogged) {
       await http.patch(`/events/${this.currentEvent.id}/attendance`);
       success('Attending!');
+      await this.getAttendees();
+      this.showAttendees = true;
+    } else {
+      error('Sign in first!');
+    }
+  }
+
+  async cancelAttendance() {
+    if (this.isLogged) {
+      await http.delete(`/events/${this.currentEvent.id}/attendance`);
+      success('Cancelled!');
       await this.getAttendees();
       this.showAttendees = true;
     } else {

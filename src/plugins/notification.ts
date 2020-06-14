@@ -1,9 +1,7 @@
-import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
-
+import { notyf } from '@/plugins/notyf';
 import { clearToken } from './axios';
 
-const notyf = new Notyf();
 const success = (successMessage: string) => {
   notyf.success(successMessage);
 };
@@ -32,7 +30,7 @@ const expiredError = () => {
   clearToken();
   error('Your session is expired. Sign in again.');
   setTimeout(() => document.location.reload, 1000);
-  // TODO fiz with vuex
+  // TODO fix with vuex
 };
 const createExpirationNotification = (expiration: number) => {
   clearExpirationNotification();
